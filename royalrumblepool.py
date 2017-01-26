@@ -13,13 +13,14 @@ def connect():
 	try:
 		DATABASE = sqlite3.connect('RRP-DB.db')
 		CURSOR = DATABASE.cursor()
-		CURSOR.execute('CREATE TABLE IF NOT EXISTS Entrant ('
-						'Name TEXT PRIMARY KEY COLLATE NOCASE,'
-						'Number INTEGER NOT NULL,'
-						'Note TEXT,'
-						'DateEntered INTEGER DEFAULT 0'
-						')'
-					)
+		CURSOR.execute(
+			'CREATE TABLE IF NOT EXISTS Entrant ('
+			'Name TEXT PRIMARY KEY COLLATE NOCASE,'
+			'Number INTEGER NOT NULL,'
+			'Note TEXT,'
+			'DateEntered INTEGER DEFAULT 0'
+			')'
+		)
 		DATABASE.commit()
 		return True
 	except:
@@ -39,7 +40,7 @@ def insert_entrant(entrant_name, entrant_note=None):
 	if not entrant:
 		entry_number = randint(1, 30)
 		query = 'INSERT INTO Entrant (Name, Number, Note, DateEntered) values (?, ?, ?, DATETIME("now","localtime"))'
-		CURSOR.execute(query, (entrant_name, randint(1, 30), entrant_note))
+		CURSOR.execute(query, (entrant_name, entry_number, entrant_note))
 		DATABASE.commit()
 		return '{} has Entered the Royal Rumble as #{}!'.format(entrant_name, entry_number)
 
@@ -52,6 +53,7 @@ def dump():
 		print(row)
 
 
+# Ran through console
 if __name__ == '__main__':
 	args = sys.argv[1:]
 	if len(args) == 2:
