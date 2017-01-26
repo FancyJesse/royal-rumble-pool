@@ -31,7 +31,7 @@ Before the installation, be sure to update & upgrade your current packages
 $ sudo apt-get update && sudo apt-get upgrade
 ```
 
-To download the LED-Vote project use the following:
+To download the Royal-Rumble-Pool project use the following:
 
 git
 ```
