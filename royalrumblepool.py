@@ -40,12 +40,15 @@ def entrant_info(entrant_name):
 
 
 # Insert entrant info to database and assign entry number
-def insert_entrant(entrant_name, entrant_note=None):
+def insert_entrant(entrant_name, entrant_comment=None):
+	entrant_name = trim(entrant_name)
+	if entrant_comment:
+		entrant_comment = trim(entrant_comment)
 	entrant = entrant_info(entrant_name)
 	if not entrant:
 		entry_number = randint(1, 30)
 		query = 'INSERT INTO Entrant (Name, Number, Comment, DateEntered) values (?, ?, ?, DATETIME("now","localtime"))'
-		CURSOR.execute(query, (entrant_name, entry_number, entrant_note))
+		CURSOR.execute(query, (entrant_name, entry_number, entrant_comment))
 		DATABASE.commit()
 		return '{} has entered the Royal Rumble as #{}!'.format(entrant_name, entry_number)
 
@@ -68,7 +71,7 @@ def dump():
 # Ran through console
 if __name__ == '__main__':
 	args = sys.argv[1:]
-	output = 'Invalid Arguments - Required [entrant_name] [entrant_note]'
+	output = 'Invalid Arguments - Required [entrant_name] [entrant_comment]'
 	if args:
 		if connect():
 			if len(args) == 1 and args[0] == '-d':
