@@ -33,32 +33,41 @@ Before the installation, be sure to update & upgrade your current packages
 $ sudo apt-get update && sudo apt-get upgrade
 ```
 
-To download the Royal-Rumble-Pool project use the following:
+Clone the Royal-Rumble-Pool repository use the following:
 
 git
 ```
 $ git clone https://github.com/FancyJesse/royal-rumble-pool
 ```
 
+Since the Python script creates a database file, a directory has to be set in which to place the newly created file.
+By default, the directory path is '/home/Public/royal-rumble-pool/'. This can be changed within the script.
+
+*Note 1: Paths are automatically created when running the Python script"
+
+*Note 2: Be sure to apply the proper permissions to the created files and directory.*
+
 
 Usage
 ------------------------------------------------------------------------
-To insert user data into the database use the following command:
-```
-$ cd
-$ ./royalrumblepool.py [entry_name] [entry_comment]
-```
-
-*Note: You might have to explicitly call python3 to run it*
+Insert user data into the database:
 ```
 $ python3 ./royalrumblepool.py [entry_name] [entry_comment]
 ```
 
-*Note: A database file is automatically created when first running the script*
+Dump all user data stored in the database:
+```
+$ python3 ./royalrumblepool.py -d
+```
+
+*Note: All returned data is of type JSON*
 
 
 Release History
 ------------------------------------------------------------------------
+* 0.2.0
+	* Added command line arguement support
+	* All Functions return JSON (easier to communicate with PHP and AJAX)
 * 0.1.0
 	* Initial release
 
