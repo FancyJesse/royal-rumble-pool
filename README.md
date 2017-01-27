@@ -10,7 +10,7 @@ Assigns Royal Rumble entry numbers and displays data on a webpage
 
 Introduction
 ------------------------------------------------------------------------
-The Royal Rumble is a WWE PPV event where participants enter at timed intervals based on their entry number. This project was created to allow users to be assigned an entry number and see if their corresponding entry wins the Royal Rumble. Users are able to register their name, along with a comment, and assigned an entry number at random.
+The Royal Rumble is a WWE PPV event where participants enter at timed intervals based on their entry number. This project was created to allow users to be assigned an entry number and see if their corresponding entry wins the Royal Rumble. Users are able to register their name, along with a comment, and are then assigned an entry number at random.
 
 The project's main interface is provided through a webpage, where users can enter their name and comment, and be registered into the Royal Rumble pool. User data is stored in an SQLite database via a Python script. Communication to this Python script is provided by the webpage's PHP.
 
@@ -67,7 +67,7 @@ Release History
 ------------------------------------------------------------------------
 * 0.2.0
 	* Added command line arguement support
-	* All Functions return JSON (easier to communicate with PHP and AJAX)
+	* All functions return JSON (easier communication between PHP and AJAX)
 * 0.1.0
 	* Initial release
 
