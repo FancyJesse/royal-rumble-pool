@@ -1,5 +1,6 @@
 from datetime import date
 from random  import randint
+import os
 import sqlite3
 import sys
 
@@ -12,7 +13,10 @@ CURSOR = None
 def connect():
 	global DATABASE, CURSOR
 	try:
-		DATABASE = sqlite3.connect('RRP-{}.db'.format(date.today().year))
+		db_dir = os.path.expanduser('~') + '/royal-rumble-pool/database/'
+		if not os.path.exists(db_dir):
+			os.makedirs(db_dir)
+		DATABASE = sqlite3.connect(db_dir + 'RRP-{}.db'.format(date.today().year))
 		CURSOR = DATABASE.cursor()
 		CURSOR.execute(
 			'CREATE TABLE IF NOT EXISTS Entrant ('
