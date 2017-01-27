@@ -41,9 +41,9 @@ def entrant_info(entrant_name):
 
 # Insert entrant info to database and assign entry number
 def insert_entrant(entrant_name, entrant_comment=None):
-	entrant_name = trim(entrant_name)
+	entrant_name = entrant_name.strip()
 	if entrant_comment:
-		entrant_comment = trim(entrant_comment)
+		entrant_comment = entrant_comment.strip()
 	entrant = entrant_info(entrant_name)
 	if not entrant:
 		entry_number = randint(1, 30)
