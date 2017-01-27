@@ -13,7 +13,7 @@ CURSOR = None
 def connect():
 	global DATABASE, CURSOR
 	try:
-		db_dir = os.path.expanduser('~') + '/royal-rumble-pool/database/'
+		db_dir = '/home/Public/royal-rumble-pool/'
 		if not os.path.exists(db_dir):
 			os.makedirs(db_dir)
 		DATABASE = sqlite3.connect(db_dir + 'RRP-{}.db'.format(date.today().year))
