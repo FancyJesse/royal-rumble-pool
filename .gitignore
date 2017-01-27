@@ -89,3 +89,7 @@ ENV/
 .ropeproject
 /.project
 /.pydevproject
+
+# Database 
+*.db
+

@@ -1,4 +1,5 @@
 from random  import randint
+from datetime import date
 import sqlite3
 import sys
 
@@ -11,13 +12,13 @@ CURSOR = None
 def connect():
 	global DATABASE, CURSOR
 	try:
-		DATABASE = sqlite3.connect('RRP-DB.db')
+		DATABASE = sqlite3.connect('RRP-{}.db'.format(date.today().year))
 		CURSOR = DATABASE.cursor()
 		CURSOR.execute(
 			'CREATE TABLE IF NOT EXISTS Entrant ('
 			'Name TEXT PRIMARY KEY COLLATE NOCASE,'
 			'Number INTEGER NOT NULL,'
-			'Note TEXT,'
+			'Comment TEXT,'
 			'DateEntered INTEGER DEFAULT 0'
 			')'
 		)
@@ -39,28 +40,37 @@ def insert_entrant(entrant_name, entrant_note=None):
 	entrant = entrant_info(entrant_name)
 	if not entrant:
 		entry_number = randint(1, 30)
-		query = 'INSERT INTO Entrant (Name, Number, Note, DateEntered) values (?, ?, ?, DATETIME("now","localtime"))'
+		query = 'INSERT INTO Entrant (Name, Number, Comment, DateEntered) values (?, ?, ?, DATETIME("now","localtime"))'
 		CURSOR.execute(query, (entrant_name, entry_number, entrant_note))
 		DATABASE.commit()
-		return '{} has Entered the Royal Rumble as #{}!'.format(entrant_name, entry_number)
+		return '{} has entered the Royal Rumble as #{}!'.format(entrant_name, entry_number)
 
-	return '{} has Already Been Assigned Entry Number #{} on {}!'.format(entrant[0], entrant[1], entrant[3])
+	return '{} has already been assigned Entry Number #{} on {}!'.format(entrant[0], entrant[1], entrant[3])
 
 
 # Print out database content
 def dump():
+	entrant_data = []
 	for row in CURSOR.execute('SELECT * FROM Entrant').fetchall():
-		print(row)
+		entrant = {}
+		entrant['name'] = row[0]
+		entrant['number'] = row[1]
+		entrant['comment'] = row[2]
+		entrant['date'] = row[3]
+		entrant_data.append(entrant)
+	return entrant_data
 
 
 # Ran through console
 if __name__ == '__main__':
 	args = sys.argv[1:]
-	if len(args) == 2:
+	output = 'Invalid Arguments - Required [entrant_name] [entrant_note]'
+	if args:		
 		if connect():
-			output = insert_entrant(args[0], args[1])
+			if len(args) == 1 and args[0] == '-d':
+				output = dump()
+			elif len(args) == 2:
+				output = insert_entrant(args[0], args[1])
 		else:
-			output = 'Unable to Connect to Database.'
-	else:
-		output = 'Invalid Arguments - Required [entrant_name] [entrant_note]'
+			output = 'Database Connection Failed.'
 	print(output)
