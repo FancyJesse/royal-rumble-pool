@@ -1,5 +1,6 @@
 from datetime import date
 from random  import randint
+import json
 import os
 import sqlite3
 import sys
@@ -58,14 +59,14 @@ def insert_entrant(entrant_name, entrant_comment=None):
 # Get all database content
 def dump():
 	entrant_data = []
-	for row in CURSOR.execute('SELECT * FROM Entrant').fetchall():
+	for row in CURSOR.execute('SELECT * FROM Entrant ORDER BY Number, Name').fetchall():
 		entrant = {}
 		entrant['name'] = row[0]
 		entrant['number'] = row[1]
 		entrant['comment'] = row[2]
 		entrant['date'] = row[3]
 		entrant_data.append(entrant)
-	return entrant_data
+	return json.dumps(entrant_data)
 
 
 # Ran through console
