@@ -43,6 +43,8 @@ def entrant_info(entrant_name):
 # Insert entrant info to database and assign entry number
 def insert_entrant(entrant_name, entrant_comment=None):
 	entrant_name = entrant_name.strip()
+	if not entrant_name:
+		return False, 'Invalid Entry Name'
 	if entrant_comment:
 		entrant_comment = entrant_comment.strip()
 	entrant = entrant_info(entrant_name)
@@ -51,9 +53,9 @@ def insert_entrant(entrant_name, entrant_comment=None):
 		query = 'INSERT INTO Entrant (Name, Number, Comment, DateEntered) values (?, ?, ?, DATETIME("now","localtime"))'
 		CURSOR.execute(query, (entrant_name, entry_number, entrant_comment))
 		DATABASE.commit()
-		return '{} has entered the Royal Rumble as #{}!'.format(entrant_name, entry_number)
+		return True, '{} has entered the Royal Rumble as #{}!'.format(entrant_name, entry_number)
 
-	return '{} has already been assigned Entry Number #{} on {}!'.format(entrant[0], entrant[1], entrant[3])
+	return False, '{} has already been assigned Entry Number #{} on {}!'.format(entrant[0], entrant[1], entrant[3])
 
 
 # Get all database content
@@ -66,19 +68,19 @@ def dump():
 		entrant['comment'] = row[2]
 		entrant['date'] = row[3]
 		entrant_data.append(entrant)
-	return json.dumps(entrant_data)
+	return True, entrant_data
 
 
 # Ran through console
 if __name__ == '__main__':
 	args = sys.argv[1:]
-	output = 'Invalid Arguments - Required [entrant_name] [entrant_comment]'
+	result = False, 'Invalid Arguments - Required [entrant_name] [entrant_comment]'
 	if args:
 		if connect():
 			if len(args) == 1 and args[0] == '-d':
-				output = dump()
+				result = dump()
 			elif len(args) == 2:
-				output = insert_entrant(args[0], args[1])
+				result = insert_entrant(args[0], args[1])
 		else:
-			output = 'Database Connection Failed.'
-	print(output)
+			result = False, 'Database Connection Failed.'
+	print(json.dumps({'success':result[0], 'data':result[1]}))
