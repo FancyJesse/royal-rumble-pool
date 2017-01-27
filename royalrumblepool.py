@@ -1,5 +1,5 @@
-from random  import randint
 from datetime import date
+from random  import randint
 import sqlite3
 import sys
 
@@ -48,7 +48,7 @@ def insert_entrant(entrant_name, entrant_note=None):
 	return '{} has already been assigned Entry Number #{} on {}!'.format(entrant[0], entrant[1], entrant[3])
 
 
-# Print out database content
+# Get all database content
 def dump():
 	entrant_data = []
 	for row in CURSOR.execute('SELECT * FROM Entrant').fetchall():
@@ -65,7 +65,7 @@ def dump():
 if __name__ == '__main__':
 	args = sys.argv[1:]
 	output = 'Invalid Arguments - Required [entrant_name] [entrant_note]'
-	if args:		
+	if args:
 		if connect():
 			if len(args) == 1 and args[0] == '-d':
 				output = dump()
