@@ -50,12 +50,22 @@ By default, the directory path is '/home/Public/royal-rumble-pool/'. This can be
 
 Usage
 ------------------------------------------------------------------------
-Insert user data into the database:
+Insert new entrant into the database:
 ```
-$ python3 ./royalrumblepool.py [entry_name] [entry_comment]
+$ python3 ./royalrumblepool.py -add [entrant_name] [entrant_comment]
 ```
 
-Dump all user data stored in the database:
+Remove entrant from database:
+```
+$ python3 ./royalrumblepool.py -remove [entrant_name]
+```
+
+Alter entrant's comment in the database:
+```
+$ python3 ./royalrumblepool.py -comment [entrant_name] [new_comment]
+```
+
+Dump all entrant data stored in the database:
 ```
 $ python3 ./royalrumblepool.py -d
 ```
@@ -65,6 +75,10 @@ $ python3 ./royalrumblepool.py -d
 
 Release History
 ------------------------------------------------------------------------
+* 0.3.0
+	* Added option to remove entrant
+	* Added option to alter entrant's comment
+	* OPTION arguement is now required
 * 0.2.0
 	* Added command line arguement support
 	* All functions return JSON (easier communication between PHP and AJAX)
