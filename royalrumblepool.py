@@ -1,5 +1,5 @@
 from datetime import date
-from random  import randint
+from random import choice
 import json
 import os
 import sqlite3
@@ -33,6 +33,19 @@ def connect():
 		return False
 
 
+# Get a random entry number
+# If 1-30 are given - duplicates accepted
+def entry_numbers():
+	entry_numbers = list(range(1, 31))
+	query = 'SELECT DISTINCT Number FROM Entrant'
+	CURSOR.execute(query)
+	data = CURSOR.fetchall()
+	data = [row[0] for row in data]
+	if data and len(data) < 30:
+		entry_numbers = list(set(entry_numbers) - set(data))
+	return choice(entry_numbers)
+
+
 # Check if entrant exists in database
 def entrant_info(entrant_name):
 	query = 'SELECT * FROM Entrant WHERE Name=?'
@@ -49,7 +62,7 @@ def insert_entrant(entrant_name, entrant_comment=None):
 		entrant_comment = entrant_comment.strip()
 	entrant = entrant_info(entrant_name)
 	if not entrant:
-		entry_number = randint(1, 30)
+		entry_number = entry_numbers()
 		query = 'INSERT INTO Entrant (Name, Number, Comment, DateEntered) values (?, ?, ?, DATETIME("now","localtime"))'
 		CURSOR.execute(query, (entrant_name, entry_number, entrant_comment))
 		DATABASE.commit()
@@ -70,6 +83,21 @@ def remove_entrant(entrant_name):
 	return False, '{} is not in the Royal Rumble!'.format(entrant_name)
 
 
+# Re-roll entrant's entry number in database
+def reroll_entrant(entrant_name):
+	entrant_name = entrant_name.strip()
+	if not entrant_name:
+		return False, 'Invalid Entry Name'
+	entrant = entrant_info(entrant_name)
+	if entrant_info(entrant_name):
+		entry_number = entry_numbers()
+		query = 'UPDATE Entrant SET Number=? WHERE Name=?'
+		CURSOR.execute(query, (entry_number, entrant_name))
+		DATABASE.commit()
+		return True, "{}'s Entry Number has been altered: '{}' -> '{}'".format(entrant_name, entrant[1], entry_number)
+	return False, '{} is not in the Royal Rumble!'.format(entrant_name)
+
+
 # Change entrant's comment in database
 def update_comment(entrant_name, new_comment):
 	entrant_name = entrant_name.strip()
@@ -82,7 +110,7 @@ def update_comment(entrant_name, new_comment):
 		query = 'UPDATE Entrant SET Comment=? WHERE Name=?'
 		CURSOR.execute(query, (new_comment, entrant_name))
 		DATABASE.commit()
-		return True, "{}'s comment has been altered: '{}' -> '{}'".format(entrant_name, entrant[2], new_comment)
+		return True, "{}'s Comment has been altered: '{}' -> '{}'".format(entrant_name, entrant[2], new_comment)
 	return False, '{} is not in the Royal Rumble!'.format(entrant_name)
 
 
@@ -110,6 +138,8 @@ if __name__ == '__main__':
 			elif len(args) == 2:
 				if args[0] == '-remove':
 					result = remove_entrant(args[1])
+				elif args[0] == '-reroll':
+					result = reroll_entrant(args[1])
 			elif len(args) == 3:
 				if args[0] == '-add':
 					result = insert_entrant(args[1], args[2])

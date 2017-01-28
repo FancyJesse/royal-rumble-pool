@@ -60,6 +60,11 @@ Remove entrant from database:
 $ python3 ./royalrumblepool.py -remove [entrant_name]
 ```
 
+Re-roll entrant's entry number in the database:
+```
+$ python3 ./royalrumblepool.py -reroll [entrant_name]
+```
+
 Alter entrant's comment in the database:
 ```
 $ python3 ./royalrumblepool.py -comment [entrant_name] [new_comment]
@@ -75,6 +80,9 @@ $ python3 ./royalrumblepool.py -d
 
 Release History
 ------------------------------------------------------------------------
+* 0.4.0
+	* Added option to re-roll entrant's entry number
+	* Entry numbers 1-30 are now assigned before giving duplicates
 * 0.3.0
 	* Added option to remove entrant
 	* Added option to alter entrant's comment
