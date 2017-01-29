@@ -56,7 +56,7 @@ def entrant_info(entrant_name):
 # Insert entrant info into database and assign entry number
 def insert_entrant(entrant_name, entrant_comment=None):
 	entrant_name = entrant_name.strip()
-	if not entrant_name:
+	if not (entrant_name and len(entrant_name) > 2):
 		return False, 'Invalid Entry Name'
 	if entrant_comment:
 		entrant_comment = entrant_comment.strip()

@@ -80,6 +80,8 @@ $ python3 ./royalrumblepool.py -d
 
 Release History
 ------------------------------------------------------------------------
+* 0.4.5
+	* Entrant name now requires at least 3 characters
 * 0.4.0
 	* Added option to re-roll entrant's entry number
 	* Entry numbers 1-30 are now assigned before giving duplicates
