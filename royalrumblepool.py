@@ -11,10 +11,10 @@ DB_DIR = '/home/Public/royal-rumble-pool/'
 
 # List of year's winning entry number
 # List of tuples (YEAR, WINNING_ENTRY_NUMBER)
-WINNING_ENTRIES = [(2017, None)]
+WINNING_ENTRIES = [(2017, 23)]
 
 # Boolean to check if entries are being currently being accepted
-ACCEPTING_ENTRIES = True
+ACCEPTING_ENTRIES = False
 
 # Database and cursor shared by all function
 # Assigned when using connect()
