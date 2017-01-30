@@ -80,6 +80,10 @@ $ python3 ./royalrumblepool.py -d
 
 Release History
 ------------------------------------------------------------------------
+* 0.7.0
+	* Added a sample PHP index page
+	* Added a sample PHP post script
+	* Text fixes
 * 0.6.0
 	* A single database will now hold all yearly entrant info within tables
 	* Added global variable that holds highest entry number available

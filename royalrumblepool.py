@@ -57,7 +57,7 @@ def winners():
 		for winning_entry in WINNING_ENTRIES:
 			year_winners = []
 			if winning_entry[1]:
-				query = 'SELECT * FROM Entrant_{} Where Number=? ORDER BY Name'.format(winning_entry[0])				
+				query = 'SELECT * FROM Entrant_{} Where Number=? ORDER BY Name'.format(winning_entry[0])
 				for row in CURSOR.execute(query, (winning_entry[1],)).fetchall():
 					entrant = {}
 					entrant['name'] = row[0]
