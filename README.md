@@ -80,6 +80,11 @@ $ python3 ./royalrumblepool.py -d
 
 Release History
 ------------------------------------------------------------------------
+* 0.6.0
+	* A single database will now hold all yearly entrant info within tables
+	* Added global variable that holds highest entry number available
+	* Added global variable that holds current year
+	* Text fixes
 * 0.5.0
 	* Winning year entry number list added
 	* Added option to get winning entrant(s) data
