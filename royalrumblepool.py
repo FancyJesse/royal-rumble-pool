@@ -6,18 +6,29 @@ import sqlite3
 import sys
 
 
+# Location of database file(s)
+DB_DIR = '/home/Public/royal-rumble-pool/'
+
+# List of year's winning entry number
+# List of tuples (YEAR, WINNING_ENTRY_NUMBER)
+WINNING_ENTRIES = [(2017, None)]
+
+# Boolean to check if entries are being currently being accepted
+ACCEPTING_ENTRIES = True
+
+# Database and cursor shared by all function
+# Assigned when using connect()
 DATABASE = None
 CURSOR = None
 
 
-# Create/Connect to SQLite database
+# Create/Connect to SQLite database for current year
 def connect():
 	global DATABASE, CURSOR
 	try:
-		db_dir = '/home/Public/royal-rumble-pool/'
-		if not os.path.exists(db_dir):
-			os.makedirs(db_dir)
-		DATABASE = sqlite3.connect(db_dir + 'RRP-{}.db'.format(date.today().year))
+		if not os.path.exists(DB_DIR):
+			os.makedirs(DB_DIR)
+		DATABASE = sqlite3.connect(DB_DIR + 'RRP-{}.db'.format(date.today().year))
 		CURSOR = DATABASE.cursor()
 		CURSOR.execute(
 			'CREATE TABLE IF NOT EXISTS Entrant ('
@@ -31,6 +42,41 @@ def connect():
 		return True
 	except:
 		return False
+
+
+# Get all winners based on WINNING_ENTRIES
+def winners():
+	if WINNING_ENTRIES:
+		query = 'SELECT * FROM Entrant Where Number=? ORDER BY Name'
+		winner_data = []
+		for winning_entry in WINNING_ENTRIES:
+			year_winners = []
+			if winning_entry[1]:
+				db = sqlite3.connect(DB_DIR + 'RRP-{}.db'.format(winning_entry[0]))
+				for row in db.cursor().execute(query, (winning_entry[1],)).fetchall():
+					entrant = {}
+					entrant['name'] = row[0]
+					entrant['number'] = row[1]
+					entrant['comment'] = row[2]
+					entrant['date'] = row[3]
+					year_winners.append(entrant)
+			else:
+				entrant = {}
+				entrant['name'] = 'Coming Soon'
+				entrant['number'] = 'Coming Soon'
+				entrant['comment'] = 'Coming Soon'
+				entrant['date'] = 'Coming Soon'
+				year_winners.append(entrant)
+			if not year_winners:
+				entrant = {}
+				entrant['name'] = 'Winner(s) Not Found'
+				entrant['number'] = winning_entry[1]
+				entrant['comment'] = 'Winner(s) Not Found'
+				entrant['date'] = 'Winner(s) Not Found'
+				year_winners.append(entrant)
+			winner_data.append({'year':winning_entry[0], 'winners':year_winners})
+		return True, winner_data
+	return False, 'Winning entry data not found'
 
 
 # Get a random entry number
@@ -55,6 +101,8 @@ def entrant_info(entrant_name):
 
 # Insert entrant info into database and assign entry number
 def insert_entrant(entrant_name, entrant_comment=None):
+	if not ACCEPTING_ENTRIES:
+		return False, 'Sorry, entries for the {} Royal Rumble are closed. See you next year!'.format(date.today().year)
 	entrant_name = entrant_name.strip()
 	if not (entrant_name and len(entrant_name) > 2):
 		return False, 'Invalid Entry Name'
@@ -133,8 +181,11 @@ if __name__ == '__main__':
 	result = False, 'Invalid Arguments - Required [OPTION] [ARG]*'
 	if args:
 		if connect():
-			if len(args) == 1 and args[0] == '-d':
-				result = dump()
+			if len(args) == 1:
+				if args[0] == '-d':
+					result = dump()
+				elif args[0] == '-winners':
+					result = winners()
 			elif len(args) == 2:
 				if args[0] == '-remove':
 					result = remove_entrant(args[1])

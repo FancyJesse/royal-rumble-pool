@@ -80,6 +80,9 @@ $ python3 ./royalrumblepool.py -d
 
 Release History
 ------------------------------------------------------------------------
+* 0.5.0
+	* Winning year entry number list added
+	* Added option to get winning entrant(s) data
 * 0.4.5
 	* Entrant name now requires at least 3 characters
 * 0.4.0
