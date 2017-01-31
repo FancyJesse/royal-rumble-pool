@@ -80,6 +80,8 @@ $ python3 ./royalrumblepool.py -d
 
 Release History
 ------------------------------------------------------------------------
+* 0.7.1
+	* PHP file formatting
 * 0.7.0
 	* Added a sample PHP index page
 	* Added a sample PHP post script
