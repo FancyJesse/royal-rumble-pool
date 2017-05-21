@@ -43,7 +43,7 @@ $ git clone https://github.com/FancyJesse/royal-rumble-pool
 Since the Python script creates a database file, a directory has to be set in which to place the newly created file.
 By default, the directory path is '/home/Public/royal-rumble-pool/'. This can be changed within the script.
 
-*Note 1: Paths are automatically created when running the Python script"
+*Note 1: Paths are automatically created when running the Python script"*
 
 *Note 2: Be sure to apply the proper permissions to the created files and directory.*
 
