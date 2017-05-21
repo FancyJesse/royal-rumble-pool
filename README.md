@@ -5,7 +5,7 @@ Royal-Rumble-Pool
 
 Assigns Royal Rumble entry numbers and displays data on a webpage
 
-####Current webpage: [royalrumblepool.fancyjesse.com](http://royalrumblepool.fancyjesse.com)
+**Current webpage:** [royalrumblepool.fancyjesse.com](http://royalrumblepool.fancyjesse.com)
 
 
 Introduction
@@ -30,7 +30,7 @@ Installation
 ------------------------------------------------------------------------
 Before the installation, be sure to update & upgrade your current packages
 ```
-$ sudo apt-get update && sudo apt-get upgrade
+$ apt-get update && apt-get upgrade
 ```
 
 Clone the Royal-Rumble-Pool repository use the following:
