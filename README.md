@@ -5,7 +5,7 @@ Royal-Rumble-Pool
 
 Assigns Royal Rumble entry numbers and displays data on a webpage
 
-**Current webpage:** [royalrumblepool.fancyjesse.com](http://royalrumblepool.fancyjesse.com)
+**Current webpage:** [Click here](https://idleuser.com/projects/matches/royalrumble)
 
 
 Introduction
@@ -37,7 +37,7 @@ Clone the Royal-Rumble-Pool repository use the following:
 
 git
 ```
-$ git clone https://github.com/FancyJesse/royal-rumble-pool
+$ git clone https://github.com/idle-user/royal-rumble-pool
 ```
 
 Since the Python script creates a database file, a directory has to be set in which to place the newly created file.
@@ -117,4 +117,4 @@ See the file "LICENSE" for license information.
 
 Authors
 ------------------------------------------------------------------------
-FancyJesse
+idle-user
